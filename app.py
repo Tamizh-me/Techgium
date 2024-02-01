@@ -1,53 +1,47 @@
+import pandas as pd
+from joblib import load
 import gradio as gr
-import json
-import numpy as np
-import joblib
 
-# Load the model
-model_path = 'Support_Vector_Regression.joblib'  # Update the path to your model file
-svr_model = joblib.load(model_path)
+rf_model = load('random_forest_model.joblib')
 
-# Function to make prediction and save input and output to JSON
-def predict_and_save(vehicle_range, vehicle_weight, recycled_materials, battery_capacity, energy_efficiency, model_name):
-    # Creating input array for the model
-    input_features = np.array([vehicle_range, vehicle_weight, recycled_materials, battery_capacity, energy_efficiency]).reshape(1, -1)
-    
-    # Making prediction
-    predicted_emission = svr_model.predict(input_features)[0]
-
-    # Data to be saved
-    data_to_save = {
-        "vehicle_range": vehicle_range,
-        "vehicle_weight": vehicle_weight,
-        "recycled_materials": recycled_materials,
-        "battery_capacity": battery_capacity,
-        "energy_efficiency": energy_efficiency,
-        "model_name": model_name,
-        "predicted_emission": predicted_emission
+default_input = {
+    'Factory Size': 67868.006042283,
+    'Production Volume': 67,
+    'Battery Chemistry_Li-ion': 1,
+    'Battery Chemistry_Lead-Acid': 0,
+    'Battery Chemistry_NiMH': 0,
+    'Material Composition_Aluminum': 0,
+    'Material Composition_Plastic': 1,
+    'Material Composition_Steel': 0,
+    'Logistics Distance': 78.78
+}
+def predict_emissions(production_year, equipment_efficiency, renewable_energy_share, battery_capacity, vehicle_weight):
+    user_input = {
+        'Production Year': production_year,
+        'Equipment Efficiency': equipment_efficiency,
+        'Renewable Energy Share': renewable_energy_share,
+        'Battery Capacity': battery_capacity,
+        'Vehicle Weight': vehicle_weight
     }
-
-    # Save to JSON file
-    with open("predictions.json", "a") as file:
-        json.dump(data_to_save, file)
-        file.write("\n")  # For newline separation between entries
-
-    return predicted_emission
-
-# Creating Gradio interface
+    complete_input = {**default_input, **user_input}
+    input_df = pd.DataFrame([complete_input])
+    cols = rf_model.feature_names_in_
+    input_df = input_df[cols]
+    
+    prediction = rf_model.predict(input_df)[0]
+    return prediction
 iface = gr.Interface(
-    fn=predict_and_save,
+    fn=predict_emissions,
     inputs=[
-        gr.inputs.Number(label="Vehicle Range (km)"),
-        gr.inputs.Number(label="Vehicle Weight (kg)"),
-        gr.inputs.Number(label="Recycled Materials Used (%)"),
-        gr.inputs.Number(label="Battery Capacity (kWh)"),
-        gr.inputs.Number(label="Factory Energy Efficiency (%)"),
-        gr.inputs.Textbox(label="Model Name")
+        gr.inputs.Number(label="Production Year"),
+        gr.inputs.Number(label="Equipment Efficiency(%)"),
+        gr.inputs.Number(label="Renewable Energy Share(%)"),
+        gr.inputs.Number(label="Battery Capacity(KWh)"),
+        gr.inputs.Number(label="Vehicle Weight(kg)")
     ],
-    outputs="number",
-    title="CO2 Emissions Prediction",
-    description="Predict CO2 Emissions in Manufacturing (kg) for Electric Vehicles"
-)
+    outputs=gr.outputs.Textbox(label="Predicted Emission(kgco2)"),
+    title="Predict Carbon Emission",
+    flagging_options=None,
 
-# Launch the Gradio interface
+    description="Enter the values to predict the carbon emissions in kgCO2.")
 iface.launch()

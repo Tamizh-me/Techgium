@@ -2,4 +2,6 @@ pandas
 numpy
 scipy
 scikit-learn
+gradio
+joblib
 
