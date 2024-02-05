@@ -14,6 +14,7 @@ default_input = {
     'Material Composition_Plastic': 1,
     'Material Composition_Steel': 0,
     'Logistics Distance': 78.78
+    
 }
 def predict_emissions(production_year, equipment_efficiency, renewable_energy_share, battery_capacity, vehicle_weight):
     user_input = {
