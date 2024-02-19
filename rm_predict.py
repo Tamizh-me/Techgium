@@ -3,10 +3,8 @@ import joblib
 import numpy as np
 import csv
 
-# Load your trained Gradient Boosted Trees model
 model = joblib.load('models/gradient_boosting_regressor_model.joblib')
 
-# Define emission factors directly
 emission_factors = {
     'Synthetic Rubber': 2.4,
     'Natural Rubber': 0.639,
@@ -19,7 +17,6 @@ emission_factors = {
     'Sulfur': 0.008
 }
 
-# Fuel emission coefficients (kgCO2e per unit)
 fuel_emission_factors = {
     'Benzene': 2.81,
     'Kerosene': 2.76,
