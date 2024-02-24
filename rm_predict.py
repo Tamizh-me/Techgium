@@ -62,9 +62,9 @@ def predict_and_calculate_emissions(average_distance, fuel_type, fuel_quantity, 
     predicted_emission = model.predict(features)[0]
     
     # Additional Calculations
-    transport_emission = tire_weight * 0.00056 * average_distance
+    transport_emission = tire_weight * 0.000547 * average_distance
     fuel_emission = fuel_quantity * fuel_emission_factors[fuel_type]
-    plant_emission = energy_consumption * 0.9
+    plant_emission = energy_consumption * 0.82
     
     # Save results
     identifier = get_next_identifier()
@@ -96,21 +96,21 @@ with gr.Blocks() as demo:
 
     # Fuel type selection in its own row
     with gr.Row():
-        fuel_type = gr.Radio(['Benzene', 'Kerosene', 'Diesel fuel', 'A heavy oil', 'B • C heavy oil', 'Liquefied petroleum gas (LPG)', 'Liquefied natural gas (LNG)', 'Fuel coal'], label="Fuel Type")
+        fuel_type = gr.Radio(['Benzene', 'Kerosene', 'Diesel fuel', 'A heavy oil', 'B • C heavy oil', 'Liquefied petroleum gas (LPG)', 'Liquefied natural gas (LNG)', 'Fuel coal'], label="Fuel Type (*for steam and heating)")
 
     # Additional parameters in a compact 3-box layout
     with gr.Row():
-        average_distance = gr.Number(label="Average Transportation Distance (km)", value=0)
-        fuel_quantity = gr.Number(label="Fuel Quantity (liters/kg)", value=0)
-        energy_consumption = gr.Number(label="Plant Energy Consumption (kWh per tire)", value=0)
+        average_distance = gr.Number(label="Average Distance Provider-Manufacture (km)", value=0)
+        fuel_quantity = gr.Number(label="Fuel Quantity per tire (liters/kg)", value=0)
+        energy_consumption = gr.Number(label="Plant Energy Consumption (kWh/tire)", value=0)
     
     btn_predict = gr.Button("Predict", align="right")  
     
       # Outputs
-    predicted_material_emission = gr.Textbox(label="Predicted Material CO2 Emissions (kgCO2e)")
-    raw_material_transportation_emission = gr.Textbox(label="Transportation CO2 Emissions (kgCO2e)")
-    fuel_emission = gr.Textbox(label="Fuel CO2 Emissions (kgCO2e)")
-    plant_energy_consumption_emission = gr.Textbox(label="Plant Energy CO2 Emissions (kgCO2e)")
+    predicted_material_emission = gr.Textbox(label="Predicted RawbMaterial CO2 Emissions (kgCO2e/tire)")
+    raw_material_transportation_emission = gr.Textbox(label="Transportation CO2 Emissions (kgCO2e/tire)")
+    fuel_emission = gr.Textbox(label="Heating/Steam Fuel CO2 Emissions (kgCO2e/tire)")
+    plant_energy_consumption_emission = gr.Textbox(label="Plant Energy CO2 Emissions (kgCO2e/tire)")
 
     # Button to execute the function
     
