@@ -3,10 +3,9 @@ import csv
 import matplotlib.pyplot as plt
 import io
 from PIL import Image
-from geopy.distance import geodesic  # Library to calculate distances between locations
+from geopy.distance import geodesic  
 import numpy as np
 
-# Dictionary to map city names to their coordinates
 city_coordinates = {
     "banglore": (12.9716, 77.5946),
     "hyderabad": (17.3850, 78.4867),
@@ -20,7 +19,6 @@ city_coordinates = {
     "guwahati": (26.1445, 91.7362)
 }
 
-# Coordinates for Chennai, Tamil Nadu
 chennai_coordinates = (13.0827, 80.2707)
 
 def calculate_distance(city):
@@ -84,8 +82,6 @@ def display_emissions_data_and_chart(tire_id, city, end_of_cycle_method):
                         wedges, texts, autotexts = ax.pie(emissions_values, startangle=90, colors=colors, autopct='%1.1f%%')
                         ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-    # Display kgCO2e values and percentages outside the pie chart radially
-                        # Display kgCO2e values and percentages outside the pie chart radially
                         for i, p in enumerate(wedges):
                                 ang = (p.theta2 - p.theta1) / 2. + p.theta1
                                 y = np.sin(np.deg2rad(ang))
@@ -128,7 +124,7 @@ def display_emissions_data_and_chart(tire_id, city, end_of_cycle_method):
 
                         buf_image = Image.open(buf)
                         sustainability_text = "By choosing recycling over incineration, you have reduced {0:.2f} kg of CO2. You made the right choice!".format(co2_difference)
-                        additional_info_text = ("1. You can retread the End of Life Tires(ELT) and help reduce the carbon footprint by 20%.\n2. It is possible to offset this emission by planting 5 Trees.\n3. Choose cleaner and sustainable approach and join the march to attain Net nuetral by 2050") # Add your points here
+                        additional_info_text = ("1. You can retread the End of Life Tyres(ELT) and help reduce the carbon footprint by 20%.\n2. It is possible to offset this emission by planting 5 Trees.\n3. Choose cleaner and sustainable approach and join the march to attain Net neutral by 2050") # Add your points here
 
                         return ("Total life cycle emissions: {:.2f} kg CO2".format(total_life_cycle_emission), buf_image,additional_info_text)
 
@@ -154,7 +150,7 @@ with gr.Blocks() as demo:
     
 
     with gr.Row():
-        tire_id_input = gr.Dropdown(label="Select Tire Identifier", choices= identifiers  , searchable=True)
+        tire_id_input = gr.Dropdown(label="Select Tyre Identifier", choices= identifiers  , searchable=True)
         city_dropdown = gr.Dropdown(label="Select City", choices=list(city_coordinates.keys()))
         end_of_cycle_dropdown = gr.Radio(label="End of Cycle Method", choices=["Recycling", "Incineration"])
     

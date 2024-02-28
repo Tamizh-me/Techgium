@@ -80,7 +80,7 @@ with gr.Blocks() as demo:
     
     # Tire and raw material weights
     with gr.Row():
-        tire_weight = gr.Number(label="Tire Weight (kg)")
+        tire_weight = gr.Number(label="Tyre Weight (kg)")
     with gr.Row():
         synthetic_rubber_weight = gr.Number(label="Synthetic Rubber Weight (kg)", value=0)
         natural_rubber_weight = gr.Number(label="Natural Rubber Weight (kg)", value=0)
@@ -101,16 +101,16 @@ with gr.Blocks() as demo:
     # Additional parameters in a compact 3-box layout
     with gr.Row():
         average_distance = gr.Number(label="Average Distance Provider-Manufacture (km)", value=0)
-        fuel_quantity = gr.Number(label="Fuel Quantity per tire (liters/kg)", value=0)
-        energy_consumption = gr.Number(label="Plant Energy Consumption (kWh/tire)", value=0)
+        fuel_quantity = gr.Number(label="Fuel Quantity per tyre (liters/kg)", value=0)
+        energy_consumption = gr.Number(label="Plant Energy Consumption (kWh/tyre)", value=0)
     
     btn_predict = gr.Button("Predict", align="right")  
     
       # Outputs
-    predicted_material_emission = gr.Textbox(label="Predicted RawbMaterial CO2 Emissions (kgCO2e/tire)")
-    raw_material_transportation_emission = gr.Textbox(label="Transportation CO2 Emissions (kgCO2e/tire)")
-    fuel_emission = gr.Textbox(label="Heating/Steam Fuel CO2 Emissions (kgCO2e/tire)")
-    plant_energy_consumption_emission = gr.Textbox(label="Plant Energy CO2 Emissions (kgCO2e/tire)")
+    predicted_material_emission = gr.Textbox(label="Predicted RawbMaterial CO2 Emissions (kgCO2e/tyre)")
+    raw_material_transportation_emission = gr.Textbox(label="Transportation CO2 Emissions (kgCO2e/tyre)")
+    fuel_emission = gr.Textbox(label="Heating/Steam Fuel CO2 Emissions (kgCO2e/tyre)")
+    plant_energy_consumption_emission = gr.Textbox(label="Plant Energy CO2 Emissions (kgCO2e/tyre)")
 
     # Button to execute the function
     
